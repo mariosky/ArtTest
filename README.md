@@ -48,4 +48,9 @@ sudo apt install unzip
 unzip wikiart.zip
 rm -rf ___MACOSX
 ```
+Antes de correr el script agrega una línea de conexión para la base de datos 
+a tus variables de entorno. Por ejemplo:
 
+```env
+DB_DSN="dbname=artworks user=ubuntu password=MipasswordsupersecretO"
+```
