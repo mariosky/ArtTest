@@ -13,15 +13,15 @@ class Artist(models.Model):
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=40, unique=True)
 
 
 class Style(models.Model):
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=40, unique=True)
 
 
 class Period(models.Model):
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=40, unique=True)
 
 
 class Artwork(models.Model):
