@@ -22,6 +22,7 @@ path = r'../wikiart/data/'
 files = os.listdir(path)
 artists = [f for f in files if '-art.csv' not in f]
 
+print(artists)
 for a in artists:
     with open(path+a, newline='') as f:
         reader = csv.reader(f)
