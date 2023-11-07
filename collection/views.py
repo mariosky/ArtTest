@@ -27,9 +27,7 @@ def register(request):
 
 
 def artwork(request, artwork_id):
-
     artwork = Artwork.objects.get(pk=artwork_id)
-
     return render(request, 'collection/artwork.html', {'artwork': artwork})
 
 
@@ -38,7 +36,6 @@ def index(request):
     random_works = []
     if artworks:
         random_works = random.sample(artworks, 12)
-
     return render(request, 'collection/index.html', {'artworks': random_works})
 
 
@@ -47,12 +44,12 @@ def search_artworks(request):
         value = request.GET['search']
         artworks = ft_artworks(value)
 
-        paginator = Paginator(artworks, 8) 
+        paginator = Paginator(artworks, 8)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
 
-        return render(request, 'collection/index.html',
-                      {'artworks': artworks, 'search_value': value, 
+        return render(request, 'collection/artwork_search.html',
+                      {'artworks': artworks, 'search_value': value,
                        "page_obj": page_obj})
     else:
         return render(request, 'collection/index.html',
