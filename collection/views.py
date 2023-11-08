@@ -3,10 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 import random
-from collection.models import Artwork
+from collection.models import Artwork, Collection
 from django.contrib.postgres import search
 from django.core.paginator import Paginator
-
+from .forms import CollectionForm
 
 def register(request):
     if request.method == 'POST':
@@ -29,6 +29,38 @@ def register(request):
 def artwork(request, artwork_id):
     artwork = Artwork.objects.get(pk=artwork_id)
     return render(request, 'collection/artwork.html', {'artwork': artwork})
+
+
+def collections(request):
+    collections = Collection.objects.filter(owner=request.user)
+    return render(request, 'collection/collections.html',
+                  {'collections': collections})
+
+
+def collection_list(request):
+    collections = Collection.objects.filter(owner=request.user)
+    return render(request, 'collection/collection_list.html',
+                  {'collections': collections})
+
+
+def collection_add(request):
+    form = None
+    if request.method == 'POST':
+        form = CollectionForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            description = form.cleaned_data['description']
+            collection = Collection(
+                    name=name,
+                    description=description,
+                    owner=request.user)
+            collection.save()
+            return HttpResponse(status=204,
+                                headers={'HX-Trigger': 'listChanged'})
+
+    return render(request,
+                  'collection/collection_form.html',
+                  {'form': form})
 
 
 def index(request):
